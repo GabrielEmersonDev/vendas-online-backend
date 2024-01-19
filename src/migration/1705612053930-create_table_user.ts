@@ -1,29 +1,65 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableColumn } from 'typeorm';
 
-export class CreateTableUser1705612053930 implements MigrationInterface {
+export class CreateTableUser1705610867912 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.query(`
-            CREATE TABLE IF NOT EXISTS public."user"
-    (
-        id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
-        name character varying COLLATE pg_catalog."default" NOT NULL,
-        email character varying COLLATE pg_catalog."default" NOT NULL,
-        phone character varying COLLATE pg_catalog."default" NOT NULL,
-        cpf character varying COLLATE pg_catalog."default" NOT NULL,
-        password character varying COLLATE pg_catalog."default" NOT NULL,
-        CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id)
-    )
-
-    TABLESPACE pg_default;
-
-    ALTER TABLE IF EXISTS public."user"
-        OWNER to postgres;
-        `);
+    // Adiciona a tabela 'user'
+    await queryRunner.createTable(
+      new Table({
+        name: 'user',
+        columns: [
+          {
+            name: 'id',
+            type: 'serial',
+            isPrimary: true,
+            generationStrategy: 'increment',
+          },
+          {
+            name: 'name',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'email',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'phone',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'cpf',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'password',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'type_user',
+            type: 'int',
+            isNullable: false,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+        ],
+      }),
+      true,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.query(`
-    drop table
-    `);
+    await queryRunner.dropTable('user');
   }
 }
