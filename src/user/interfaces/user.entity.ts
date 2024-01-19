@@ -31,6 +31,6 @@ export class UserEntity {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @CreateDateColumn({ name: 'update_at' })
+  @CreateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }
