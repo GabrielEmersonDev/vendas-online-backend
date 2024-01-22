@@ -7,7 +7,7 @@ import { StateEntity } from './entities/state.entity';
 export class StateService {
   constructor(
     @InjectRepository(StateEntity)
-    private readonly userRepository: Repository<StateEntity>,
+    private readonly stateRepository: Repository<StateEntity>,
   ) {}
 
   async getAllSate() {}
