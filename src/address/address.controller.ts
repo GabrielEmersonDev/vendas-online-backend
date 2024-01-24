@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Param,
   Post,
@@ -16,7 +17,7 @@ export class AddressController {
   @Post('/:userId')
   @UsePipes(ValidationPipe)
   async createAddress(
-    createAddressDto: CreateAddressDto,
+    @Body() createAddressDto: CreateAddressDto,
     @Param('userId') userId: number,
   ): Promise<AddressEntity> {
     return this.addressService.createAddress(createAddressDto, userId);
