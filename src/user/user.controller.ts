@@ -7,6 +7,7 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
+  Param,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserService } from './user.service';
@@ -28,5 +29,10 @@ export class UserController {
     return (await this.userService.getAllUser()).map(
       (userEntity) => new ReturnUserDto(userEntity),
     );
+  }
+
+  @Get('/:userId')
+  async getUserById(@Param('userId') userId: number) {
+    return this.userService.getUserByIdUsingRelations(userId);
   }
 }
