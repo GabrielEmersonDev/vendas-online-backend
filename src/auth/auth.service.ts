@@ -13,7 +13,7 @@ export class AuthService {
       .findUserByEmail(loginDto.email)
       .catch(() => undefined);
 
-    const isMatch = await compare(loginDto.password, user?.password);
+    const isMatch = await compare(loginDto.password, user?.password || '');
 
     if (!user || !isMatch) {
       throw new NotFoundException('Email or password invalid');
