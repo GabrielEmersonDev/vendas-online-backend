@@ -1,0 +1,10 @@
+import { cityEntityMock } from 'src/city/__mocks__/city.mock';
+import { CreateAddressDto } from '../dto/createAddress.dto';
+import { addressEntityMock } from './address.mock';
+
+export const createAddressMock: CreateAddressDto = {
+  cep: addressEntityMock.cep,
+  cityId: cityEntityMock.id,
+  complement: addressEntityMock.complement,
+  numberAddress: addressEntityMock.numberAddress,
+};
