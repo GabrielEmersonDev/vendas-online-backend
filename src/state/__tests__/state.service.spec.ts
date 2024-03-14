@@ -38,4 +38,10 @@ describe('StateService', () => {
 
     expect(states).toEqual([stateEntityMock]);
   });
+
+  it('should return error in exception', async () => {
+    jest.spyOn(stateRepository, 'find').mockRejectedValueOnce(new Error());
+
+    expect(service.getAllState()).rejects.toThrow();
+  });
 });
