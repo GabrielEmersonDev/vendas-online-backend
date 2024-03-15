@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CityEntity } from '../city/entities/city.entity';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 @Injectable()
 export class CacheService {
