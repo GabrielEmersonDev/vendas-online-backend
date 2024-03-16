@@ -1,4 +1,4 @@
-import { cityEntityMock } from 'src/city/__mocks__/city.mock';
+import { cityEntityMock } from '../../city/__mocks__/city.mock';
 import { CreateAddressDto } from '../dto/createAddress.dto';
 import { addressEntityMock } from './address.mock';
 

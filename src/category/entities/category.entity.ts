@@ -1,5 +1,5 @@
-import { ProductEntity } from 'src/product/entities/product.entity';
-import { ProductModule } from 'src/product/product.module';
+import { ProductEntity } from '../../product/entities/product.entity';
+import { ProductModule } from '../../product/product.module';
 import {
   Column,
   CreateDateColumn,
@@ -24,5 +24,5 @@ export class CategoryEntity {
   updatedAt: Date;
 
   @OneToMany(() => ProductEntity, (product: ProductEntity) => product.category)
-  products: ProductEntity;
+  products?: ProductEntity;
 }
