@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
+import { createProductDto } from './dto/create-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -19,4 +20,8 @@ export class ProductService {
 
     return products;
   }
+
+  // async createProduct(
+  //   createProduct: createProductDto,
+  // ): Promise<ProductEntity> {}
 }
