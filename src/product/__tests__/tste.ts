@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductService } from '../product.service';
 import { ProductEntity } from '../entities/product.entity';
-import { productEntityMock } from '../__mocks__/product.mock';
+import { ProductService } from '../product.service';
+import { productMock } from '../__mocks__/product.mock';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -16,8 +16,8 @@ describe('ProductService', () => {
         {
           provide: getRepositoryToken(ProductEntity),
           useValue: {
-            find: jest.fn().mockResolvedValue([]),
-            save: jest.fn().mockResolvedValue([]),
+            find: jest.fn().mockResolvedValue([productMock]),
+            save: jest.fn().mockResolvedValue(productMock),
           },
         },
       ],
@@ -37,18 +37,18 @@ describe('ProductService', () => {
   it('should return all products', async () => {
     const products = await service.findAll();
 
-    expect(products).toEqual([productEntityMock]);
+    expect(products).toEqual([productMock]);
   });
 
   it('should return error if products empty', async () => {
     jest.spyOn(productRepository, 'find').mockResolvedValue([]);
 
-    expect(service.findAll()).rejects.toThrow();
+    expect(service.findAll()).rejects.toThrowError();
   });
 
   it('should return error in exception', async () => {
     jest.spyOn(productRepository, 'find').mockRejectedValue(new Error());
 
-    expect(service.findAll()).rejects.toThrow();
+    expect(service.findAll()).rejects.toThrowError();
   });
 });
