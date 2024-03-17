@@ -16,8 +16,8 @@ describe('ProductService', () => {
         {
           provide: getRepositoryToken(ProductEntity),
           useValue: {
-            find: jest.fn().mockResolvedValue([]),
-            save: jest.fn().mockResolvedValue([]),
+            find: jest.fn().mockResolvedValue([productEntityMock]),
+            save: jest.fn().mockResolvedValue([productEntityMock]),
           },
         },
       ],
