@@ -3,6 +3,7 @@ import { ProductService } from '../product.service';
 import { Repository } from 'typeorm';
 import { ProductEntity } from '../entities/product.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { productEntityMock } from '../__mocks__/product.mock';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -31,5 +32,17 @@ describe('ProductService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(productRepository).toBeDefined();
+  });
+
+  it('should return all products', async () => {
+    const products = await service.findAll();
+
+    expect(products).toEqual([productEntityMock]);
+  });
+
+  it('should return all products', async () => {
+    jest.spyOn(productRepository, 'find').mockResolvedValue([]);
+
+    expect(service.findAll()).rejects.toThrow();
   });
 });

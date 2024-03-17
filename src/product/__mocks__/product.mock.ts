@@ -1,7 +1,7 @@
 import { categoryMock } from '../../category/__mocks__/category.mock';
 import { ProductEntity } from '../entities/product.entity';
 
-export const stateEntityMock: ProductEntity = {
+export const productEntityMock: ProductEntity = {
   name: 'Product 1',
   price: 34.3,
   createdAt: new Date(),
