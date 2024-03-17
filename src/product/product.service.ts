@@ -48,4 +48,17 @@ export class ProductService {
 
     return this.productRepository.delete({ id: productId });
   }
+
+  // async updateProduct(
+  //   productId: number,
+  //   updateProduct: CreateProductDto,
+  // ): Promise<ProductEntity> {
+  //   await this.findProductById(productId);
+  //   await this.categoryService.findCategoryById(updateProduct.categoryId);
+
+  //   return this.productRepository.save({
+  //     id: productId,
+  //     ...updateProduct,
+  //   });
+  // }
 }
