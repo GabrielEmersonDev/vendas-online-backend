@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductEntity } from '../entities/product.entity';
 import { ProductService } from '../product.service';
-import { productMock } from '../__mocks__/product.mock';
+import { productEntityMock } from '../__mocks__/product.mock';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -16,8 +16,8 @@ describe('ProductService', () => {
         {
           provide: getRepositoryToken(ProductEntity),
           useValue: {
-            find: jest.fn().mockResolvedValue([productMock]),
-            save: jest.fn().mockResolvedValue(productMock),
+            find: jest.fn().mockResolvedValue([productEntityMock]),
+            save: jest.fn().mockResolvedValue(productEntityMock),
           },
         },
       ],
@@ -37,7 +37,7 @@ describe('ProductService', () => {
   it('should return all products', async () => {
     const products = await service.findAll();
 
-    expect(products).toEqual([productMock]);
+    expect(products).toEqual([productEntityMock]);
   });
 
   it('should return error if products empty', async () => {
