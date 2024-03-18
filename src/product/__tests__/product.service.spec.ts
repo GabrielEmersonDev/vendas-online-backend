@@ -29,7 +29,7 @@ describe('ProductService', () => {
           useValue: {
             find: jest.fn().mockResolvedValue([productEntityMock]),
             findOne: jest.fn().mockResolvedValue(productEntityMock),
-            save: jest.fn().mockResolvedValue([productEntityMock]),
+            save: jest.fn().mockResolvedValue(productEntityMock),
             delete: jest.fn().mockResolvedValue(returnDeleteMock),
           },
         },
@@ -70,7 +70,7 @@ describe('ProductService', () => {
   it('should return product after insert in DB', async () => {
     const product = await service.createProduct(createProductMock);
 
-    expect(product).toEqual([productEntityMock]);
+    expect(product).toEqual(productEntityMock);
   });
 
   it('should return product after insert in DB', async () => {
@@ -97,5 +97,22 @@ describe('ProductService', () => {
     const deleted = await service.deleteProduct(productEntityMock.id);
 
     expect(deleted).toEqual(returnDeleteMock);
+  });
+
+  it('should return produt after update', async () => {
+    const product = await service.updateProduct(
+      createProductMock,
+      productEntityMock.id,
+    );
+
+    expect(product).toEqual(productEntityMock);
+  });
+
+  it('should error in update product', async () => {
+    jest.spyOn(productRepository, 'save').mockRejectedValue(new Error());
+
+    expect(
+      service.updateProduct(createProductMock, productEntityMock.id),
+    ).rejects.toThrow();
   });
 });
