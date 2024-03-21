@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ReturnLoginDto } from './dtos/returnLogin.dto';
 import { ReturnUserDto } from '../user/dtos/returnUser.dto';
 import { LoginPayload } from './dtos/loginPayload.dto';
-import { validatePassword } from 'src/utils/password';
+import { validatePassword } from '../utils/password';
 
 @Injectable()
 export class AuthService {
