@@ -99,7 +99,7 @@ describe('ProductService', () => {
     expect(deleted).toEqual(returnDeleteMock);
   });
 
-  it('should return produt after update', async () => {
+  it('should return product after update', async () => {
     const product = await service.updateProduct(
       createProductMock,
       productEntityMock.id,
