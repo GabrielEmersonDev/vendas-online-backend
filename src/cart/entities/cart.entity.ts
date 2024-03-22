@@ -12,6 +12,9 @@ export class CartEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
+  @Column({ name: 'active', nullable: false })
+  active: boolean;
+
   @Column({ name: 'user_id', nullable: false })
   userId: number;
 
