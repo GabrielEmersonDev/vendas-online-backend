@@ -15,7 +15,7 @@ export class CartProductService {
     private readonly productService: ProductService,
   ) {}
 
-  async veriftyProductInCart(
+  async verifyProductInCart(
     productId: number,
     cartId: number,
   ): Promise<CartProductEntity> {
@@ -25,11 +25,9 @@ export class CartProductService {
         cartId,
       },
     });
-
     if (!cartProduct) {
       throw new NotFoundException('Product not found in cart');
     }
-
     return cartProduct;
   }
 
@@ -49,7 +47,7 @@ export class CartProductService {
     cart: CartEntity,
   ): Promise<CartProductEntity> {
     await this.productService.findProductById(insertCartDto.productId);
-    const cartProduct = await this.veriftyProductInCart(
+    const cartProduct = await this.verifyProductInCart(
       insertCartDto.productId,
       cart.id,
     ).catch(() => undefined);
@@ -70,10 +68,10 @@ export class CartProductService {
   ): Promise<CartProductEntity> {
     await this.productService.findProductById(updateCartDto.productId);
 
-    const cartProduct = await this.veriftyProductInCart(
+    const cartProduct = await this.verifyProductInCart(
       updateCartDto.productId,
       cart.id,
-    ).catch(() => undefined);
+    );
 
     return this.cartProductRepository.save({
       ...cartProduct,

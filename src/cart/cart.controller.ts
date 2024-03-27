@@ -58,11 +58,11 @@ export class CartController {
   @UsePipes(ValidationPipe)
   @Patch()
   async updateProductInCart(
-    @Body() updateCartDto: UpdateCartDto,
+    @Body() UpdateCartDto: UpdateCartDto,
     @UserId() userId: number,
   ): Promise<ReturnCartDto> {
     return new ReturnCartDto(
-      await this.cartService.updateProductInCart(updateCartDto, userId),
+      await this.cartService.updateProductInCart(UpdateCartDto, userId),
     );
   }
 }
