@@ -7,6 +7,8 @@ import { CartProductService } from '../../cart-product/cart-product.service';
 import { returnDeleteMock } from '../../__mocks__/return-delete.mock';
 import { cartEntityMock } from '../__mocks__/cart.mock';
 import { userEntityMock } from '../../user/__mocks__/user.mock';
+import { NotFoundError } from 'rxjs';
+import { NotFoundException } from '@nestjs/common';
 
 describe('CartService', () => {
   let service: CartService;
@@ -55,5 +57,13 @@ describe('CartService', () => {
 
     expect(resultDelete).toEqual(returnDeleteMock);
     expect(spy.mock.calls[0][0]).toEqual({ ...cartEntityMock, active: false });
+  });
+
+  it('should return error in findOne undefined', async () => {
+    jest.spyOn(cartRepository, 'findOne').mockResolvedValue(undefined);
+
+    expect(service.clearCart(userEntityMock.id)).rejects.toThrow(
+      NotFoundException,
+    );
   });
 });
