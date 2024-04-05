@@ -20,7 +20,7 @@ describe('ProductController', () => {
             findAll: jest.fn().mockResolvedValue([productEntityMock]),
             createProduct: jest.fn().mockResolvedValue(productEntityMock),
             deleteProduct: jest.fn().mockResolvedValue(returnDeleteMock),
-            updateProduct: jest.fn().mockResolvedValue(updateProductMock),
+            updateProduct: jest.fn().mockResolvedValue(productEntityMock),
           },
         },
       ],
@@ -61,7 +61,7 @@ describe('ProductController', () => {
     expect(product).toEqual(returnDeleteMock);
   });
 
-  it('should update product Entity in updateProduct', async () => {
+  it('should return ProductEntity in updateProduct', async () => {
     const product = await controller.updateProduct(
       updateProductMock,
       productEntityMock.id,
