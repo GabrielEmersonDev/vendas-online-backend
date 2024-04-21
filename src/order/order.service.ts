@@ -35,13 +35,10 @@ export class OrderService {
     });
 
     const cart = await this.cartService.findCartByUserId(userId, true);
-    console.log('cart.cartProduct', cart.cartProduct);
 
     const products = await this.productService.findAll(
       cart.cartProduct?.map((cartProduct) => cartProduct.productId),
     );
-
-    console.log('products', products);
 
     await Promise.all(
       cart.cartProduct?.map((cartProduct) =>

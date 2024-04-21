@@ -19,7 +19,7 @@ export class OrderProductEntity {
   orderId: number;
 
   @Column({ name: 'product_id', nullable: false })
-  ProductId: number;
+  productId: number;
 
   @Column({ name: 'amount', nullable: false })
   amount: Date;
