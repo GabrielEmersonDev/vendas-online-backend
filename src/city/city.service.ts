@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CityEntity } from './entities/city.entity';
 import { CacheService } from '../cache/cache.service';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class CityService {

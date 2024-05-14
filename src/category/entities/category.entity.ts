@@ -1,5 +1,5 @@
 import { ProductEntity } from '../../product/entities/product.entity';
-import { ProductModule } from '../../product/product.module';
+
 import {
   Column,
   CreateDateColumn,

@@ -6,7 +6,6 @@ import { userEntityMock } from '../../user/__mocks__/user.mock';
 import { AuthService } from '../auth.service';
 import { jwtMock } from '../__mocks__/jwt.mock';
 import { loginUserMock } from '../__mocks__/login-user.mock';
-import passport from 'passport';
 
 describe('AuthService', () => {
   let service: AuthService;

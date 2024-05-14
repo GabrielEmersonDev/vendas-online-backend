@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { PaymentService } from './payment.service';
-import { Type } from 'class-transformer';
 import { PaymentEntity } from './entities/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

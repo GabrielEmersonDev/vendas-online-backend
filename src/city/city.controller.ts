@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Patch, Body, Param } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { CityEntity } from './entities/city.entity';
 import { CityService } from './city.service';
 

@@ -1,5 +1,4 @@
 import { CartEntity } from '../../cart/entities/cart.entity';
-import { CategoryEntity } from '../../category/entities/category.entity';
 import { ProductEntity } from '../../product/entities/product.entity';
 import {
   Column,

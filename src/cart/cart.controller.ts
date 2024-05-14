@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
-import { CartEntity } from './entities/cart.entity';
 import { InsertCartDto } from './dtos/insert-cart.dto';
 import { CartService } from './cart.service';
 import { UserId } from '../decorators/user-id.decorator';

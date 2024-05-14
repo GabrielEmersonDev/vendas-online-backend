@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber } from 'class-validator';
+import { IsNumber } from 'class-validator';
 
 export class InsertCartDto {
   @IsNumber()

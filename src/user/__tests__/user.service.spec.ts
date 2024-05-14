@@ -82,8 +82,6 @@ describe('UserService', () => {
   });
 
   it('should return error if user exist', async () => {
-    const user = await service.getUserByIdUsingRelations(userEntityMock.id);
-
     expect(service.createUser(createUserMock)).rejects.toThrow();
   });
 

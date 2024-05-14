@@ -7,12 +7,10 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { join } from 'path';
 
 @Entity({ name: 'order' })
 export class OrderEntity {

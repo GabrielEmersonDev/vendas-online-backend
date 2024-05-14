@@ -3,7 +3,7 @@ import { ProductController } from '../product.controller';
 import { ProductService } from '../product.service';
 import { createProductMock } from '../__mocks__/create-product.mock';
 import { productEntityMock } from '../__mocks__/product.mock';
-import { DeleteResult } from 'typeorm';
+
 import { updateProductMock } from '../__mocks__/update-product.mock';
 import { returnDeleteMock } from '../../__mocks__/return-delete.mock';
 

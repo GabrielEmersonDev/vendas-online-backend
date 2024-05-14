@@ -25,5 +25,6 @@ describe('OrderController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+    expect(orderService).toBeDefined();
   });
 });
