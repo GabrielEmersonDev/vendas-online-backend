@@ -3,6 +3,16 @@ import { PaymentService } from '../payment.service';
 import { Repository } from 'typeorm';
 import { PaymentEntity } from '../entities/payment.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { paymentMock } from '../__mocks__/payment.mock';
+import { createOrderPixMock } from '../../order/__mocks__/create-order.mock';
+import { cartEntityMock } from '../../cart/__mocks__/cart.mock';
+import { productEntityMock } from '../../product/__mocks__/product.mock';
+import { paymentPixMock } from '../__mocks__/payment-pix.mock';
+import { PaymentPixEntity } from '../entities/payment-pix.entity';
+import { createOrderCreditMock } from '../../order/__mocks__/create-order.mock';
+import { PaymentCreditCardEntity } from '../entities/payment-credit-card.entity';
+import { paymentCreditCardMock } from '../__mocks__/payment-credit-card.mock';
+import { BadRequestException } from '@nestjs/common';
 
 describe('PaymentService', () => {
   let service: PaymentService;
@@ -14,7 +24,7 @@ describe('PaymentService', () => {
         {
           provide: getRepositoryToken(PaymentEntity),
           useValue: {
-            save: jest.fn(),
+            save: jest.fn().mockResolvedValue(paymentMock),
           },
         },
         PaymentService,
@@ -30,5 +40,52 @@ describe('PaymentService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(paymentRepository).toBeDefined();
+  });
+
+  it('should save payment pix in db', async () => {
+    const spy = jest.spyOn(paymentRepository, 'save');
+
+    const payment = await service.createPayment(
+      createOrderPixMock,
+      [productEntityMock],
+      cartEntityMock,
+    );
+
+    const savePayment: PaymentPixEntity = spy.mock
+      .calls[0][0] as PaymentPixEntity;
+
+    expect(payment).toEqual(paymentMock);
+    expect(savePayment.code).toEqual(paymentPixMock.code);
+    expect(savePayment.datePayment).toEqual(paymentPixMock.datePayment);
+  });
+
+  it('should save payment credit in db', async () => {
+    const spy = jest.spyOn(paymentRepository, 'save');
+
+    const payment = await service.createPayment(
+      createOrderCreditMock,
+      [productEntityMock],
+      cartEntityMock,
+    );
+
+    const savePayment: PaymentCreditCardEntity = spy.mock
+      .calls[0][0] as PaymentCreditCardEntity;
+
+    expect(payment).toEqual(paymentMock);
+    expect(savePayment.amountPayments).toEqual(
+      paymentCreditCardMock.amountPayments,
+    );
+  });
+
+  it('should return exception in not send data', async () => {
+    expect(
+      service.createPayment(
+        {
+          addressId: createOrderCreditMock.addressId,
+        },
+        [productEntityMock],
+        cartEntityMock,
+      ),
+    ).rejects.toThrow(BadRequestException);
   });
 });
