@@ -5,7 +5,6 @@ import { PaymentEntity } from '../entities/payment.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { paymentMock } from '../__mocks__/payment.mock';
 import { createOrderPixMock } from '../../order/__mocks__/create-order.mock';
-import { cartEntityMock } from '../../cart/__mocks__/cart.mock';
 import { productEntityMock } from '../../product/__mocks__/product.mock';
 import { paymentPixMock } from '../__mocks__/payment-pix.mock';
 import { PaymentPixEntity } from '../entities/payment-pix.entity';
@@ -13,6 +12,9 @@ import { createOrderCreditMock } from '../../order/__mocks__/create-order.mock';
 import { PaymentCreditCardEntity } from '../entities/payment-credit-card.entity';
 import { paymentCreditCardMock } from '../__mocks__/payment-credit-card.mock';
 import { BadRequestException } from '@nestjs/common';
+import { cartEntityMock } from '../../cart/__mocks__/cart.mock';
+import { cartProductEntityMock } from '../../cart-product/__mocks__/product-cart.mock';
+import { PaymentType } from '../../payment-status/enums/payment-type.enum';
 
 describe('PaymentService', () => {
   let service: PaymentService;
@@ -87,5 +89,54 @@ describe('PaymentService', () => {
         cartEntityMock,
       ),
     ).rejects.toThrow(BadRequestException);
+  });
+
+  it('should return final price 0 in cartProduct undefined', async () => {
+    const spy = jest.spyOn(paymentRepository, 'save');
+    await service.createPayment(
+      createOrderCreditMock,
+      [productEntityMock],
+      cartEntityMock,
+    );
+
+    const savePayment: PaymentCreditCardEntity = spy.mock
+      .calls[0][0] as PaymentCreditCardEntity;
+
+    expect(savePayment.finalPrice).toEqual(0);
+  });
+
+  it('should return final price sned cartProduct', async () => {
+    const spy = jest.spyOn(paymentRepository, 'save');
+    await service.createPayment(createOrderCreditMock, [productEntityMock], {
+      ...cartEntityMock,
+      cartProduct: [cartProductEntityMock],
+    });
+
+    const savePayment: PaymentCreditCardEntity = spy.mock
+      .calls[0][0] as PaymentCreditCardEntity;
+
+    expect(savePayment.finalPrice).toEqual(184790);
+  });
+
+  it('should return all data in save payment', async () => {
+    const spy = jest.spyOn(paymentRepository, 'save');
+    await service.createPayment(createOrderCreditMock, [productEntityMock], {
+      ...cartEntityMock,
+      cartProduct: [cartProductEntityMock],
+    });
+
+    const savePayment: PaymentCreditCardEntity = spy.mock
+      .calls[0][0] as PaymentCreditCardEntity;
+
+    const paymentCreditCardMock: PaymentCreditCardEntity =
+      new PaymentCreditCardEntity(
+        PaymentType.Done,
+        184790,
+        0,
+        184790,
+        createOrderCreditMock,
+      );
+
+    expect(savePayment).toEqual(paymentCreditCardMock);
   });
 });
