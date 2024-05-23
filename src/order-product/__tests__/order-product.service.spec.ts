@@ -6,7 +6,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { orderProductMock } from '../__mocks__/order-product.mock';
 import { orderEntityMock } from '../../order/__mocks__/order.mock';
 import { productEntityMock } from '../../product/__mocks__/product.mock';
-import e from 'express';
 
 describe('OrderProductService', () => {
   let service: OrderProductService;
