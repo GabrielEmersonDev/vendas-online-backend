@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
-import { ReturnProduct } from './dto/return-product.dto';
+import { ReturnProduct } from './dtos/return-product.dto';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductDto } from './dtos/create-product.dto';
 import { ProductEntity } from './entities/product.entity';
 import { DeleteResult } from 'typeorm';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
 
 @Roles(UserType.Admin, UserType.User)
 @Controller('product')
