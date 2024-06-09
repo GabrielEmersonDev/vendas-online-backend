@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -26,6 +27,7 @@ export class OrderController {
   ): Promise<OrderEntity> {
     return this.orderService.createOrder(createOrderDTO, userId);
   }
+
   @Get()
   async findOrdersByUserId(@UserId() userId: number): Promise<OrderEntity[]> {
     return this.orderService.findOrdersByUserId(userId);
@@ -35,6 +37,16 @@ export class OrderController {
   @Get('/all')
   async findAllOrders(): Promise<ReturnOrderDTO[]> {
     return (await this.orderService.findAllOrders()).map(
+      (order) => new ReturnOrderDTO(order),
+    );
+  }
+
+  @Roles(UserType.Admin)
+  @Get('/:orderId')
+  async findOrderById(
+    @Param('orderId') orderId: number,
+  ): Promise<ReturnOrderDTO[]> {
+    return (await this.orderService.findOrdersByUserId(undefined, orderId)).map(
       (order) => new ReturnOrderDTO(order),
     );
   }
