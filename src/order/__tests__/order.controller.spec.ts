@@ -2,9 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OrderController } from '../order.controller';
 import { OrderService } from '../order.service';
 import { orderEntityMock } from '../__mocks__/order.mock';
-
 import { userEntityMock } from '../../user/__mocks__/user.mock';
-import { find } from 'rxjs';
 
 describe('OrderController', () => {
   let controller: OrderController;
@@ -19,14 +17,14 @@ describe('OrderController', () => {
             createOrder: jest.fn().mockResolvedValue(orderEntityMock),
             findOrdersByUserId: jest.fn().mockResolvedValue([orderEntityMock]),
             findAllOrders: jest.fn().mockResolvedValue([orderEntityMock]),
-          },
+            findOrderById: jest.fn().mockResolvedValue(orderEntityMock), 
         },
       ],
       controllers: [OrderController],
     }).compile();
 
     controller = module.get<OrderController>(OrderController);
-    orderService = module.get<OrderService>(OrderController);
+    orderService = module.get<OrderService>(OrderService);
   });
 
   it('should be defined', () => {
@@ -48,8 +46,25 @@ describe('OrderController', () => {
       {
         id: orderEntityMock.id,
         date: orderEntityMock.date.toString(),
+        userId: orderEntityMock.userId,
+        addressId: orderEntityMock.addressId,
+        paymentId: orderEntityMock.paymentId,
       },
     ]);
+    expect(spy.mock.calls.length).toEqual(1);
+  });
+
+  it('should return order by id in findOrderById', async () => {
+    // Corrigir o teste para findOrderById
+    const spy = jest.spyOn(orderService, 'findOrdersByUserId');
+    const order = await controller.findOrderById(orderEntityMock.id); 
+    expect(order).toEqual({
+      id: orderEntityMock.id,
+      date: orderEntityMock.date.toString(),
+      userId: orderEntityMock.userId,
+      addressId: orderEntityMock.addressId,
+      paymentId: orderEntityMock.paymentId,
+    });
     expect(spy.mock.calls.length).toEqual(1);
   });
 });
