@@ -15,7 +15,6 @@ export class CorreiosService {
     return this.httpService.axiosRef
       .get(this.URL_CORREIOS.replace('{CEP}', cep))
       .then((result) => {
-        console.log(result);
         if (result.data.erro === 'true') {
           throw new NotFoundException('CEP not found');
         }
