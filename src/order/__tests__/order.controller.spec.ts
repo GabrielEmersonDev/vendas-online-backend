@@ -42,15 +42,13 @@ describe('OrderController', () => {
     const spy = jest.spyOn(orderService, 'findAllOrders');
     const orders = await controller.findAllOrders();
 
-    expect(orders).toEqual([
-      {
-        id: orderEntityMock.id,
-        date: orderEntityMock.date.toString(),
-        userId: orderEntityMock.userId,
-        addressId: orderEntityMock.addressId,
-        paymentId: orderEntityMock.paymentId,
-      },
-    ]);
+    expect(orders).toEqual({
+      id: orderEntityMock.id,
+      date: orderEntityMock.date.toString(),
+      userId: orderEntityMock.userId,
+      addressId: orderEntityMock.addressId,
+      paymentId: orderEntityMock.paymentId,
+    });
     expect(spy.mock.calls.length).toEqual(1);
   });
 
