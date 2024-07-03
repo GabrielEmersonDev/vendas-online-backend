@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -9,13 +10,15 @@ import { ReturnCepExternal } from './dtos/return-cep-external.dto';
 import { CityService } from '../city/city.service';
 import { ReturnCep } from './dtos/return-cep.dto';
 import { CityEntity } from '../city/entities/city.entity';
+import { Client } from 'nestjs-soap';
+import { ResponsePriceCorreios } from './dtos/response-price-correios';
 
 @Injectable()
 export class CorreiosService {
   URL_CORREIOS = process.env.URL_CEP_CORREIOS;
   constructor(
+    @Inject('SOAP_CORREIOS') private readonly soapClient: Client,
     private readonly httpService: HttpService,
-
     private readonly cityService: CityService,
   ) {}
 
@@ -40,5 +43,17 @@ export class CorreiosService {
       .catch(() => undefined);
 
     return new ReturnCep(returnCep, city?.id, city?.state?.id);
+  }
+
+  async priceDelivery(): Promise<ResponsePriceCorreios> {
+    return new Promise((resolve) => {
+      this.soapClient.CalcPrecoPrazo({}, (_, res: ResponsePriceCorreios) => {
+        if (res) {
+          resolve(res);
+        } else {
+          throw new BadRequestException('Error SOAP');
+        }
+      });
+    });
   }
 }
