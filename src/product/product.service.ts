@@ -1,16 +1,19 @@
 import {
+  forwardRef,
   Inject,
   Injectable,
   NotFoundException,
-  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, In, Repository } from 'typeorm';
-import { ProductEntity } from './entities/product.entity';
-import { CreateProductDto } from './dtos/create-product.dto';
 import { CategoryService } from '../category/category.service';
+import { DeleteResult, In, Repository } from 'typeorm';
+import { CreateProductDto } from './dtos/create-product.dto';
+import { ProductEntity } from './entities/product.entity';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { CountProduct } from './dtos/count-product.dto';
+import { SizeProductDTO } from '../correios/dtos/size-product.dto';
+import { CorreiosService } from 'src/correios/correios.service';
+import { CdServiceEnum } from 'src/correios/enums/cd-service.enum';
 
 @Injectable()
 export class ProductService {
@@ -20,6 +23,8 @@ export class ProductService {
 
     @Inject(forwardRef(() => CategoryService))
     private readonly categoryService: CategoryService,
+
+    private readonly correiosService: CorreiosService,
   ) {}
 
   async findAll(
@@ -27,7 +32,6 @@ export class ProductService {
     isFindRelations?: boolean,
   ): Promise<ProductEntity[]> {
     let findOptions = {};
-
     if (productId && productId.length > 0) {
       findOptions = {
         where: {
@@ -35,7 +39,6 @@ export class ProductService {
         },
       };
     }
-
     if (isFindRelations) {
       findOptions = {
         ...findOptions,
@@ -44,9 +47,7 @@ export class ProductService {
         },
       };
     }
-
     const products = await this.productRepository.find(findOptions);
-
     if (!products || products.length === 0) {
       throw new NotFoundException('Not found products');
     }
@@ -83,12 +84,25 @@ export class ProductService {
       ...updateProduct,
     });
   }
-
-  async countProductsByCategoryId(): Promise<CountProduct[]> {
+  async countProdutsByCategoryId(): Promise<CountProduct[]> {
     return this.productRepository
       .createQueryBuilder('product')
       .select('product.category_id, COUNT(*) as total')
       .groupBy('product.category_id')
       .getRawMany();
+  }
+
+  async findPriceDelivery(cep: string, idProduct: number): Promise<any> {
+    const product = await this.findProductById(idProduct);
+
+    const sizeProduct = new SizeProductDTO(product);
+
+    const returnCorreios = await this.correiosService.priceDelivery(
+      CdServiceEnum.PAC,
+      cep,
+      sizeProduct,
+    );
+
+    return returnCorreios;
   }
 }

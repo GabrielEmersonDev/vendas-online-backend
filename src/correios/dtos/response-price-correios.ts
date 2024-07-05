@@ -1,6 +1,7 @@
 export interface ResponsePriceCorreios {
   CalcPrecoPrazoResult: CalcPrecoPrazoResult;
 }
+
 export interface CalcPrecoPrazoResult {
   Servicos: Servicos;
 }
@@ -12,7 +13,7 @@ export interface Servicos {
 export interface CServico {
   Codigo: number;
   Valor: string;
-  PrazoEntrega: number;
+  PrazoEntrega: string;
   ValorMaoPropria: string;
   ValorAvisoRecebimento: string;
   ValorValorDeclarado: string;
@@ -21,5 +22,5 @@ export interface CServico {
   Erro: string;
   MsgErro: string;
   ValorSemAdicionais: string;
-  ObsFim: string;
+  obsFim: string;
 }

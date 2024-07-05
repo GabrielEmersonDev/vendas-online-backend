@@ -19,7 +19,6 @@ import { SoapModule } from 'nestjs-soap';
   ],
   providers: [CorreiosService],
   controllers: [CorreiosController],
+  exports: [CorreiosService],
 })
 export class CorreiosModule {}
-
-[];
