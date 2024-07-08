@@ -17,6 +17,7 @@ import { CreateProductDto } from './dtos/create-product.dto';
 import { ProductEntity } from './entities/product.entity';
 import { DeleteResult } from 'typeorm';
 import { UpdateProductDto } from './dtos/update-product.dto';
+import { ReturnPriceDeliveryDTO } from './dtos/return-price-delivery.dto';
 
 @Controller('product')
 export class ProductController {
@@ -58,7 +59,7 @@ export class ProductController {
   async findPriceDelivery(
     @Param('idProduct') idProduct: number,
     @Param('cep') cep: string,
-  ): Promise<any> {
+  ): Promise<ReturnPriceDeliveryDTO> {
     return this.productService.findPriceDelivery(cep, idProduct);
   }
 }

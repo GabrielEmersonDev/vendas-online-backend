@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -14,6 +15,7 @@ import { CountProduct } from './dtos/count-product.dto';
 import { SizeProductDTO } from '../correios/dtos/size-product.dto';
 import { CorreiosService } from 'src/correios/correios.service';
 import { CdServiceEnum } from 'src/correios/enums/cd-service.enum';
+import { ReturnPriceDeliveryDTO } from './dtos/return-price-delivery.dto';
 
 @Injectable()
 export class ProductService {
@@ -97,12 +99,18 @@ export class ProductService {
 
     const sizeProduct = new SizeProductDTO(product);
 
-    const returnCorreios = await this.correiosService.priceDelivery(
-      CdServiceEnum.PAC,
-      cep,
-      sizeProduct,
-    );
+    const resultPrice = await Promise.all([
+      this.correiosService.priceDelivery(CdServiceEnum.PAC, cep, sizeProduct),
+      this.correiosService.priceDelivery(CdServiceEnum.SEDEX, cep, sizeProduct),
+      this.correiosService.priceDelivery(
+        CdServiceEnum.SEDEX_10,
+        cep,
+        sizeProduct,
+      ),
+    ]).catch(() => {
+      throw new BadRequestException('Error in price delivery');
+    });
 
-    return returnCorreios;
+    return new ReturnPriceDeliveryDTO(resultPrice);
   }
 }
