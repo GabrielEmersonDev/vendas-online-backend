@@ -6,4 +6,9 @@ export const updateProductMock: UpdateProductDto = {
   name: 'name mock product',
   price: 125,
   image: 'adasdasdji',
+  weight: 10,
+  length: 10,
+  height: 10,
+  width: 10,
+  diameter: 10,
 };

@@ -6,4 +6,9 @@ export const createProductMock: CreateProductDto = {
   name: 'Product 1',
   price: 100,
   image: 'image.jpg',
+  weight: 10,
+  length: 10,
+  height: 10,
+  width: 10,
+  diameter: 10,
 };
